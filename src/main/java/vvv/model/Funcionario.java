@@ -17,7 +17,7 @@ public class Funcionario {
     private String email;
     private String senha;
     private Boolean cargo;
-    private PontoVenda pontoVenda;
+    private PontoVenda pontoDeVenda;
 
     public Long getIdFuncionario() {
         return idFuncionario;
@@ -68,10 +68,10 @@ public class Funcionario {
     }
 
     public PontoVenda getPontoDeVenda() {
-        return pontoVenda;
+        return pontoDeVenda;
     }
 
     public void setPontoDeVenda(PontoVenda pontoDeVenda) {
-        this.pontoVenda = pontoDeVenda;
+        this.pontoDeVenda = pontoDeVenda;
     }
 }
