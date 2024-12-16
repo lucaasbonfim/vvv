@@ -1,17 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package vvv.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-/**
- *
- * @author lucas
- */
+
 public class Reserva {
     private Long idReserva;
     private LocalDateTime dataReserva;
@@ -25,7 +18,6 @@ public class Reserva {
     private PontoVenda pontoDeVenda;
     private Funcionario funcionario;
 
-    // Getters e Setters
     public Long getIdReserva() {
         return idReserva;
     }
