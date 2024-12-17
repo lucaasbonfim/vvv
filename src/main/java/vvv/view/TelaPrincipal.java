@@ -1,7 +1,12 @@
 package vvv.view;
 
 import javax.swing.*;
+
+import vvv.view.Passageiro.TelaConsultarPassageiro;
+import vvv.view.Passageiro.TelaCriarPassageiro;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class TelaPrincipal extends javax.swing.JFrame {
 
@@ -10,37 +15,36 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     private void initComponents() {
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenuCadastro = new javax.swing.JMenu();
-        jMenuItemPassageiro = new javax.swing.JMenuItem();
+        jMenuBar1 = new JMenuBar();
+        jMenuPassageiro = new JMenu("Passageiro");
+        jMenuItemCadastrar = new JMenuItem("Cadastrar");
+        jMenuItemConsultar = new JMenuItem("Consultar");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Vai&Volta Viagens");
 
+        // Painel de fundo com imagem
         JPanel painelFundo = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon imagemFundo = new ImageIcon(getClass().getResource("/./img/logo.png"));
+                ImageIcon imagemFundo = new ImageIcon(getClass().getResource("/img/logo.png"));
                 g.drawImage(imagemFundo.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
+        painelFundo.setLayout(new BorderLayout());
 
-        painelFundo.setLayout(new BorderLayout()); // Definindo layout do painel de fundo
+        // Configuração dos menus
+        jMenuItemCadastrar.addActionListener(this::abrirTelaCadastrar);
+        jMenuItemConsultar.addActionListener(this::abrirTelaConsultar);
 
-        jMenuCadastro.setText("Cadastro");
+        jMenuPassageiro.add(jMenuItemCadastrar);
+        jMenuPassageiro.add(jMenuItemConsultar);
 
-        jMenuItemPassageiro.setText("Passageiro");
-        jMenuItemPassageiro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemPassageiroActionPerformed(evt);
-            }
-        });
-        jMenuCadastro.add(jMenuItemPassageiro);
-
-        jMenuBar1.add(jMenuCadastro);
+        jMenuBar1.add(jMenuPassageiro);
         setJMenuBar(jMenuBar1);
 
+        // Adiciona o painel de fundo ao conteúdo principal
         getContentPane().add(painelFundo);
 
         pack();
@@ -48,31 +52,32 @@ public class TelaPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void jMenuItemPassageiroActionPerformed(java.awt.event.ActionEvent evt) {
-        TelaCriarPassageiro telaCriarPassageiro = new TelaCriarPassageiro(this);
-        telaCriarPassageiro.setVisible(true);
+    private void abrirTelaCadastrar(ActionEvent evt) {
+        new TelaCriarPassageiro(this).setVisible(true);
     }
 
-    public static void main(String args[]) {
+    private void abrirTelaConsultar(ActionEvent evt) {
+        new TelaConsultarPassageiro(this).setVisible(true);
+    }
+
+    public static void main(String[] args) {
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName())
+                .log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TelaPrincipal().setVisible(true);
-            }
-        });
+        EventQueue.invokeLater(() -> new TelaPrincipal().setVisible(true));
     }
 
-    private javax.swing.JMenu jMenuCadastro;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItemPassageiro;
+    private JMenu jMenuPassageiro;
+    private JMenuBar jMenuBar1;
+    private JMenuItem jMenuItemCadastrar;
+    private JMenuItem jMenuItemConsultar;
 }

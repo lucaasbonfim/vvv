@@ -1,4 +1,4 @@
-package vvv.view;
+package vvv.view.Passageiro;
 
 import javax.swing.*;
 import java.awt.*;
@@ -159,9 +159,5 @@ public class TelaCriarPassageiro extends JDialog {
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao salvar passageiro.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new TelaCriarPassageiro(null));
     }
 }

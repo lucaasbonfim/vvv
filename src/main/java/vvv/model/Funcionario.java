@@ -1,8 +1,6 @@
 
 package vvv.model;
 
-import java.util.ArrayList;
-
 public class Funcionario {
     private Long idFuncionario;
     private String nome;
