@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexao {
-    private static final String URL = "jdbc:mysql://localhost:3306/vvv";
-    private static final String USER = "root";
-    private static final String PASSWORD = "mysql";
+    private static final String URL = "jdbc:postgresql://ep-snowy-flower-a530o2l7.us-east-2.aws.neon.tech/neondb?sslmode=require";
+    private static final String USER = "neondb_owner";
+    private static final String PASSWORD = "sqy8BA9lNnRz";
 
     public static Connection getConnection() {
         try {

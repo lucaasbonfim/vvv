@@ -13,29 +13,25 @@
     
     <dependencies>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.32</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.5.4</version> <!-- Certifique-se de usar a versão compatível com seu PostgreSQL -->
         </dependency>
     </dependencies>
-
 
     <name>VVV</name>
 
     <build>
         <plugins>
-            <!-- Plugin para execução do projeto -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <!-- Classe principal -->
                     <mainClass>vvv.view.TelaPrincipal</mainClass>
                 </configuration>
             </plugin>
 
-            <!-- Plugin para compilação com versão específica do Java -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

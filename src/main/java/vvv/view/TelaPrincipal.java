@@ -49,7 +49,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     private void jMenuItemPassageiroActionPerformed(java.awt.event.ActionEvent evt) {
-        TelaCriarPassageiro telaCriarPassageiro = new TelaCriarPassageiro(this, true);
+        TelaCriarPassageiro telaCriarPassageiro = new TelaCriarPassageiro(this);
         telaCriarPassageiro.setVisible(true);
     }
 
