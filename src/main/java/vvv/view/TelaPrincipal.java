@@ -2,8 +2,8 @@ package vvv.view;
 
 import javax.swing.*;
 
-import vvv.view.Funcionario.*;
-
+import vvv.view.Modal.CadastrarModal;
+import vvv.view.Modal.ConsultarModal;
 import vvv.view.Passageiro.TelaConsultarPassageiro;
 import vvv.view.Passageiro.TelaCriarPassageiro;
 
@@ -62,6 +62,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jMenuItemPassageiroCadastrar.addActionListener(this::abrirTelaCadastrar);
         jMenuItemPassageiroConsultar.addActionListener(this::abrirTelaConsultar);
+        jMenuItemModalConsultar.addActionListener(this::abrirTelaConsultarModal);
+        jMenuItemModalCadastrar.addActionListener(this::abrirTelaCadasTrarModal);
         
 
         // Adiciona o painel de fundo ao conteúdo principal
@@ -78,6 +80,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void abrirTelaConsultar(ActionEvent evt) {
         new TelaConsultarPassageiro(this).setVisible(true);
+    }
+
+    private void abrirTelaConsultarModal(ActionEvent evt) {
+        new ConsultarModal().setVisible(true);
+    }
+
+    private void abrirTelaCadasTrarModal(ActionEvent evt) {
+        new CadastrarModal().setVisible(true);
     }
 
 
@@ -110,5 +120,4 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private JMenuItem jMenuItemModalConsultar;
     private JMenuItem jMenuItemModalCadastrar;
 
-    
 }

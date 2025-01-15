@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vvv.model.ModalTransporte;
-import vvv.model.Passageiro;
 
 public class ModalDAO {
     private String connectionString = "jdbc:postgresql://ep-snowy-flower-a530o2l7.us-east-2.aws.neon.tech/neondb?sslmode=require";
@@ -14,11 +13,9 @@ public class ModalDAO {
 
     private String password = "sqy8BA9lNnRz";
 
-
-
     public boolean salvar(ModalTransporte modal) {
         try (Connection conn = DriverManager.getConnection(connectionString, user, password)){
-            String sql = "INSERT INTO modal (modelo, capacidade, anoFabricacao, tipo, ativo) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO modal (modelo, capacidade, ano_fabricacao, tipo, ativo) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, modal.getModelo());
             stmt.setInt(2, modal.getCapacidade());
@@ -35,7 +32,7 @@ public class ModalDAO {
 
     public boolean editar(ModalTransporte modal) {
         try (Connection conn = DriverManager.getConnection(connectionString, user, password)){
-            String sql = "UPDATE modal modelo = ?, capacidade = ?, anoFabricacao = ?, tipo = ? ativo = ? WHERE id = ?";
+            String sql = "UPDATE modal modelo = ?, capacidade = ?, ano_fabricacao = ?, tipo = ? ativo = ? WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, modal.getModelo());
             stmt.setInt(2, modal.getCapacidade());
@@ -63,12 +60,12 @@ public class ModalDAO {
                 ModalTransporte modal = new ModalTransporte(
                     rs.getString("modelo"),
                     rs.getInt("capacidade"),
-                    rs.getInt("anoFabricacao"),
+                    rs.getInt("ano_fabricacao"),
                     rs.getString("tipo"),
                     rs.getBoolean("ativo")
                 );
 
-                modal.setIdModal(rs.getLong(("idModal")));
+                modal.setIdModal(rs.getLong(("id")));
 
                 modais.add(modal);
             }
@@ -91,7 +88,7 @@ public class ModalDAO {
                 modal = new ModalTransporte(
                     rs.getString("modelo"),
                     rs.getInt("capacidade"),
-                    rs.getInt("anoFabricacao"),
+                    rs.getInt("ano_fabricacao"),
                     rs.getString("tipo"),
                     rs.getBoolean("ativo")
                 );
@@ -103,7 +100,6 @@ public class ModalDAO {
         }
         return modal; // Retorna o passageiro encontrado ou null se não encontrado
     }
-
 
 }
 
