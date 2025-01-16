@@ -51,4 +51,8 @@ public class ModalController {
             return false;
         }
     }
+
+    public List<ModalTransporte> buscarPorNome(String nome) {
+        return modalDAO.listarModaisPorNome(nome);
+    }
 }

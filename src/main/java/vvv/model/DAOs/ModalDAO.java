@@ -32,7 +32,7 @@ public class ModalDAO {
 
     public boolean editar(ModalTransporte modal) {
         try (Connection conn = DriverManager.getConnection(connectionString, user, password)){
-            String sql = "UPDATE modal modelo = ?, capacidade = ?, ano_fabricacao = ?, tipo = ? ativo = ? WHERE id = ?";
+            String sql = "UPDATE modal SET modelo = ?, capacidade = ?, ano_fabricacao = ?, tipo = ? ativo = ? WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, modal.getModelo());
             stmt.setInt(2, modal.getCapacidade());
@@ -99,6 +99,36 @@ public class ModalDAO {
             e.printStackTrace();
         }
         return modal; // Retorna o passageiro encontrado ou null se não encontrado
+    }
+
+    public List<ModalTransporte> listarModaisPorNome(String nome) {
+        String sql = "SELECT * FROM modal WHERE LOWER(modelo) LIKE LOWER(?)";
+        List<ModalTransporte> modais = new ArrayList<>();
+    
+        try (Connection conn = DriverManager.getConnection(connectionString, user, password);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    
+            // Adiciona o caractere curinga '%' ao final para buscar pelas iniciais
+            stmt.setString(1, nome.toLowerCase() + "%");
+    
+            ResultSet rs = stmt.executeQuery();
+    
+            while (rs.next()) {
+                // Inicializa o objeto ModalTransporte com os dados do ResultSet
+                ModalTransporte modal = new ModalTransporte(
+                    rs.getString("modelo"),
+                    rs.getInt("capacidade"),
+                    rs.getInt("ano_fabricacao"),
+                    rs.getString("tipo"),
+                    rs.getBoolean("ativo")
+                );
+                modais.add(modal);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+        return modais;
     }
 
 }

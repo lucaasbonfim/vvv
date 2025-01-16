@@ -33,7 +33,7 @@ public class PassageiroDAO {
 
     public boolean editar(Passageiro passageiro) {
         try (Connection conn = DriverManager.getConnection(connectionString, user, password)) {
-            String sql = "UPDATE passageiro set nome = ?, email = ?, cpf = ?, telefone = ?, data_nascimento = ? WHERE id = ?";
+            String sql = "UPDATE passageiro SET nome = ?, email = ?, cpf = ?, telefone = ?, data_nascimento = ? WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, passageiro.getNome());
             stmt.setString(2, passageiro.getEmail());

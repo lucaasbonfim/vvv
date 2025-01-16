@@ -30,7 +30,7 @@ public class ConsultarModal extends JFrame {
         // Painel superior para busca por ID
         JPanel painelBusca = new JPanel();
         painelBusca.setLayout(new FlowLayout(FlowLayout.LEFT));
-        painelBusca.add(new JLabel("ID do Modal:"));
+        painelBusca.add(new JLabel("Nome:"));
         txtIdBusca = new JTextField(10);
         painelBusca.add(txtIdBusca);
         JButton btnBuscar = new JButton("Buscar");
@@ -50,7 +50,7 @@ public class ConsultarModal extends JFrame {
         btnBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buscarPorId();
+                buscarPorNome();
             }
         });
 
@@ -65,20 +65,21 @@ public class ConsultarModal extends JFrame {
         listarTodos();
     }
 
-    private void buscarPorId() {
+    private void buscarPorNome() {
         try {
-            long id = Long.parseLong(txtIdBusca.getText());
-            ModalTransporte modal = modalController.buscarModal(id);
-
-            if (modal != null) {
-                atualizarTabela(List.of(modal));
+            String nome = txtIdBusca.getText();
+            List<ModalTransporte> modais = modalController.buscarPorNome(nome);
+    
+            if (modais != null && !modais.isEmpty()) {
+                atualizarTabela(modais);
             } else {
-                JOptionPane.showMessageDialog(this, "Modal não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Nenhum modal encontrado com o nome informado.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "ID inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao buscar modais: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
 
     private void listarTodos() {
         List<ModalTransporte> modais = modalController.listarModal();

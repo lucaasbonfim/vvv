@@ -2,10 +2,13 @@ package vvv.view;
 
 import javax.swing.*;
 
+import vvv.view.Funcionario.CadastrarFuncionario;
+import vvv.view.Funcionario.ConsultarFuncionario;
 import vvv.view.Modal.CadastrarModal;
 import vvv.view.Modal.ConsultarModal;
 import vvv.view.Passageiro.TelaConsultarPassageiro;
 import vvv.view.Passageiro.TelaCriarPassageiro;
+import vvv.view.PontoVenda.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,6 +25,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuPassageiro = new JMenu("Passageiro");
         jMenuFuncionario = new JMenu("Funcionario");
         jMenuModal = new JMenu("Modal");
+        jMenuPontoVenda = new JMenu("Ponto Venda");
 
         jMenuItemPassageiroCadastrar = new JMenuItem("Cadastrar");
         jMenuItemPassageiroConsultar = new JMenuItem("Consultar");
@@ -29,6 +33,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuItemFuncionarioCadastrar = new JMenuItem("Cadastrar");
         jMenuItemModalConsultar = new JMenuItem("Consultar");
         jMenuItemModalCadastrar = new JMenuItem("Cadastrar");
+        jMenuItemPontoVendaConsultar = new JMenuItem("Consultar");
+        jMenuItemPontoVendaCadastrar = new JMenuItem("Cadastrar");
 
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -52,6 +58,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenuPassageiro);
         jMenuBar1.add(jMenuFuncionario);
         jMenuBar1.add(jMenuModal);
+        jMenuBar1.add(jMenuPontoVenda);
       
         jMenuPassageiro.add(jMenuItemPassageiroCadastrar);
         jMenuPassageiro.add(jMenuItemPassageiroConsultar);
@@ -59,11 +66,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuFuncionario.add(jMenuItemFuncionarioConsultar);
         jMenuModal.add(jMenuItemModalCadastrar);
         jMenuModal.add(jMenuItemModalConsultar);
+        jMenuPontoVenda.add(jMenuItemPontoVendaConsultar);
+        jMenuPontoVenda.add(jMenuItemPontoVendaCadastrar);
+
 
         jMenuItemPassageiroCadastrar.addActionListener(this::abrirTelaCadastrar);
         jMenuItemPassageiroConsultar.addActionListener(this::abrirTelaConsultar);
         jMenuItemModalConsultar.addActionListener(this::abrirTelaConsultarModal);
         jMenuItemModalCadastrar.addActionListener(this::abrirTelaCadasTrarModal);
+        jMenuItemPontoVendaConsultar.addActionListener(this::abrirTelaConsultarPontoVenda);
+        jMenuItemPontoVendaCadastrar.addActionListener(this::abrirTelaCadastarPontoVenda);
+        jMenuItemFuncionarioCadastrar.addActionListener(this::abrirTelaCadastrarFuncionario);
+        jMenuItemFuncionarioConsultar.addActionListener(this::abrirTelaConsultarFuncionario);
         
 
         // Adiciona o painel de fundo ao conteúdo principal
@@ -90,6 +104,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
         new CadastrarModal().setVisible(true);
     }
 
+    private void abrirTelaConsultarPontoVenda(ActionEvent evt) {
+        new ConsultarPontoVendaTela().setVisible(true);
+    }
+
+    private void abrirTelaCadastarPontoVenda(ActionEvent evt) {
+        new CadastrarPontoVendaTela().setVisible(true);
+    }
+
+    private void abrirTelaCadastrarFuncionario(ActionEvent evt) {
+        new CadastrarFuncionario().setVisible(true);
+    }
+    
+    private void abrirTelaConsultarFuncionario(ActionEvent evt) {
+        new ConsultarFuncionario().setVisible(true);
+    }
 
     public static void main(String[] args) {
         try {
@@ -112,6 +141,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private JMenu jMenuPassageiro;
     private JMenu jMenuFuncionario;
     private JMenu jMenuModal;
+    private JMenu jMenuPontoVenda;
 
     private JMenuItem jMenuItemPassageiroCadastrar;
     private JMenuItem jMenuItemPassageiroConsultar;
@@ -119,5 +149,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private JMenuItem jMenuItemFuncionarioConsultar;
     private JMenuItem jMenuItemModalConsultar;
     private JMenuItem jMenuItemModalCadastrar;
+    private JMenuItem jMenuItemPontoVendaConsultar;
+    private JMenuItem jMenuItemPontoVendaCadastrar;
+
 
 }

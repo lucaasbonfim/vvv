@@ -10,6 +10,17 @@ public class Funcionario {
     private Boolean cargo;
     private PontoVenda pontoDeVenda;
 
+    public Funcionario(String nome, String cpf, String email, String senha, Boolean cargo, PontoVenda pontoVenda) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.senha = senha;
+        this.cargo = cargo;
+        this.pontoDeVenda = pontoVenda;
+    }
+
+    public Funcionario(){}
+
     public Long getIdFuncionario() {
         return idFuncionario;
     }

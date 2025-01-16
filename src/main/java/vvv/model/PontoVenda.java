@@ -9,6 +9,11 @@ public class PontoVenda {
     public PontoVenda() {
     }
 
+    public PontoVenda(String nome, String localizacao) {
+        this.nome = nome;
+        this.localizacao = localizacao;
+    }
+
     public Long getIdPontoVenda() {
         return idPontoVenda;
     }
