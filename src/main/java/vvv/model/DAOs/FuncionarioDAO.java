@@ -83,8 +83,7 @@ public class FuncionarioDAO {
     public Funcionario buscarPorId(long id) {
         Funcionario funcionario = null;
         try (Connection conn = DriverManager.getConnection(connectionString, user, password)) {
-            String sql = "SELECT f.id, f.nome, f.cpf, f.email, f.senha, f.tipo, pv.nome AS ponto_venda_nome FROM funcionario f" +
-                         "LEFT JOIN ponto_venda pv ON f.id_ponto_venda = pv.id WHERE f.id = ?";
+            String sql = "SELECT * FROM funcionario f WHERE f.id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setLong(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -97,11 +96,6 @@ public class FuncionarioDAO {
                 funcionario.setEmail(rs.getString("email"));
                 funcionario.setSenha(rs.getString("senha"));
                 funcionario.setCargo(rs.getBoolean("tipo"));
-
-                PontoVenda pontoVenda = new PontoVenda();
-                pontoVenda.setIdPontoVenda(rs.getLong("id_ponto_venda"));
-                pontoVenda.setNome(rs.getString("ponto_venda_nome"));
-                funcionario.setPontoDeVenda(pontoVenda);
             }
         } catch (SQLException e) {
             e.printStackTrace();

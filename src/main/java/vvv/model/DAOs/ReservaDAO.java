@@ -80,7 +80,7 @@ public class ReservaDAO {
 
             if (rs.next()) {
                 Reserva reserva = new Reserva();
-                reserva.setIdReserva(rs.getLong("id_reserva"));
+                reserva.setIdReserva(rs.getLong("id"));
                 reserva.setDataReserva(rs.getTimestamp("data_reserva").toLocalDateTime());
                 reserva.setStatusReserva(rs.getBoolean("status_reserva"));
                 reserva.setDataViagem(rs.getDate("data_viagem").toLocalDate());
@@ -89,19 +89,19 @@ public class ReservaDAO {
                 reserva.setValor(rs.getBigDecimal("valor"));
 
                 Passageiro passageiro = new Passageiro();
-                passageiro.setId(rs.getLong("passageiro_id"));
+                passageiro.setId(rs.getLong("id_passageiro"));
                 reserva.setPassageiro(passageiro);
 
                 ModalTransporte modalTransporte = new ModalTransporte();
-                modalTransporte.setIdModal(rs.getLong("modal_transporte_id"));
+                modalTransporte.setIdModal(rs.getLong("id_modal"));
                 reserva.setModalTransporte(modalTransporte);
 
                 PontoVenda pontoVenda = new PontoVenda();
-                pontoVenda.setIdPontoVenda(rs.getLong("ponto_venda_id"));
+                pontoVenda.setIdPontoVenda(rs.getLong("id_ponto_venda"));
                 reserva.setPontoDeVenda(pontoVenda);
 
                 Funcionario funcionario = new Funcionario();
-                funcionario.setIdFuncionario(rs.getLong("funcionario_id"));
+                funcionario.setIdFuncionario(rs.getLong("id_funcionario"));
                 reserva.setFuncionario(funcionario);
 
                 return reserva;
@@ -123,7 +123,7 @@ public class ReservaDAO {
 
             while (rs.next()) {
                 Reserva reserva = new Reserva();
-                reserva.setIdReserva(rs.getLong("id_reserva"));
+                reserva.setIdReserva(rs.getLong("id"));
                 reserva.setDataReserva(rs.getTimestamp("data_reserva").toLocalDateTime());
                 reserva.setStatusReserva(rs.getBoolean("status_reserva"));
                 reserva.setDataViagem(rs.getDate("data_viagem").toLocalDate());
@@ -132,19 +132,19 @@ public class ReservaDAO {
                 reserva.setValor(rs.getBigDecimal("valor"));
 
                 Passageiro passageiro = new Passageiro();
-                passageiro.setId(rs.getLong("passageiro_id"));
+                passageiro.setId(rs.getLong("id_passageiro"));
                 reserva.setPassageiro(passageiro);
 
                 ModalTransporte modalTransporte = new ModalTransporte();
-                modalTransporte.setIdModal(rs.getLong("modal_transporte_id"));
+                modalTransporte.setIdModal(rs.getLong("id_modal"));
                 reserva.setModalTransporte(modalTransporte);
 
                 PontoVenda pontoVenda = new PontoVenda();
-                pontoVenda.setIdPontoVenda(rs.getLong("ponto_venda_id"));
+                pontoVenda.setIdPontoVenda(rs.getLong("id_ponto_venda"));
                 reserva.setPontoDeVenda(pontoVenda);
 
                 Funcionario funcionario = new Funcionario();
-                funcionario.setIdFuncionario(rs.getLong("funcionario_id"));
+                funcionario.setIdFuncionario(rs.getLong("id_funcionario"));
                 reserva.setFuncionario(funcionario);
 
                 reservas.add(reserva);
