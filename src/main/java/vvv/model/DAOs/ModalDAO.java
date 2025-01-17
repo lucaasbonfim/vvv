@@ -93,7 +93,7 @@ public class ModalDAO {
                     rs.getBoolean("ativo")
                 );
     
-                modal.setIdModal(rs.getLong("idModal"));
+                modal.setIdModal(rs.getLong("id"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

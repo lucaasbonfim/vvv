@@ -17,6 +17,10 @@ public class ModalTransporte {
         this.ativo = ativo;
     }
 
+    public ModalTransporte() {
+        //TODO Auto-generated constructor stub
+    }
+
     public Long getIdModal() {
         return idModal;
     }

@@ -83,8 +83,8 @@ public class FuncionarioDAO {
     public Funcionario buscarPorId(long id) {
         Funcionario funcionario = null;
         try (Connection conn = DriverManager.getConnection(connectionString, user, password)) {
-            String sql = "SELECT f.*, pv.nome AS ponto_venda_nome FROM funcionario f " +
-                         "LEFT JOIN ponto_venda pv ON f.id_ponto_venda = pv.id WHERE f.id_funcionario = ?";
+            String sql = "SELECT f.id, f.nome, f.cpf, f.email, f.senha, f.tipo, pv.nome AS ponto_venda_nome FROM funcionario f" +
+                         "LEFT JOIN ponto_venda pv ON f.id_ponto_venda = pv.id WHERE f.id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setLong(1, id);
             ResultSet rs = stmt.executeQuery();

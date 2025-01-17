@@ -9,6 +9,8 @@ import vvv.view.Modal.ConsultarModal;
 import vvv.view.Passageiro.TelaConsultarPassageiro;
 import vvv.view.Passageiro.TelaCriarPassageiro;
 import vvv.view.PontoVenda.*;
+import vvv.view.Reserva.CadastrarReserva;
+import vvv.view.Reserva.ConsultarReserva;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -26,6 +28,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuFuncionario = new JMenu("Funcionario");
         jMenuModal = new JMenu("Modal");
         jMenuPontoVenda = new JMenu("Ponto Venda");
+        jMenuReserva = new JMenu("Reserva");
 
         jMenuItemPassageiroCadastrar = new JMenuItem("Cadastrar");
         jMenuItemPassageiroConsultar = new JMenuItem("Consultar");
@@ -35,6 +38,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuItemModalCadastrar = new JMenuItem("Cadastrar");
         jMenuItemPontoVendaConsultar = new JMenuItem("Consultar");
         jMenuItemPontoVendaCadastrar = new JMenuItem("Cadastrar");
+        jMenuItemReservaConsultar = new JMenuItem("Consultar");
+        jMenuItemReservaCadastrar = new JMenuItem("Cadastrar");
 
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -59,6 +64,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenuFuncionario);
         jMenuBar1.add(jMenuModal);
         jMenuBar1.add(jMenuPontoVenda);
+        jMenuBar1.add(jMenuReserva);
       
         jMenuPassageiro.add(jMenuItemPassageiroCadastrar);
         jMenuPassageiro.add(jMenuItemPassageiroConsultar);
@@ -68,6 +74,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuModal.add(jMenuItemModalConsultar);
         jMenuPontoVenda.add(jMenuItemPontoVendaConsultar);
         jMenuPontoVenda.add(jMenuItemPontoVendaCadastrar);
+        jMenuReserva.add(jMenuItemReservaConsultar);
+        jMenuReserva.add(jMenuItemReservaCadastrar);
 
 
         jMenuItemPassageiroCadastrar.addActionListener(this::abrirTelaCadastrar);
@@ -78,7 +86,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuItemPontoVendaCadastrar.addActionListener(this::abrirTelaCadastarPontoVenda);
         jMenuItemFuncionarioCadastrar.addActionListener(this::abrirTelaCadastrarFuncionario);
         jMenuItemFuncionarioConsultar.addActionListener(this::abrirTelaConsultarFuncionario);
-        
+        jMenuItemReservaCadastrar.addActionListener(this::abrirTelaCadastrarReserva);
+        jMenuItemReservaConsultar.addActionListener(this::abrirTelaConsultarReserva);
+
 
         // Adiciona o painel de fundo ao conteúdo principal
         getContentPane().add(painelFundo);
@@ -120,6 +130,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         new ConsultarFuncionario().setVisible(true);
     }
 
+    private void abrirTelaCadastrarReserva(ActionEvent evt) {
+        new CadastrarReserva().setVisible(true);
+    }
+    
+    private void abrirTelaConsultarReserva(ActionEvent evt) {
+        new ConsultarReserva().setVisible(true);
+    }
+
     public static void main(String[] args) {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -142,6 +160,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private JMenu jMenuFuncionario;
     private JMenu jMenuModal;
     private JMenu jMenuPontoVenda;
+    private JMenu jMenuReserva;
+
 
     private JMenuItem jMenuItemPassageiroCadastrar;
     private JMenuItem jMenuItemPassageiroConsultar;
@@ -151,6 +171,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private JMenuItem jMenuItemModalCadastrar;
     private JMenuItem jMenuItemPontoVendaConsultar;
     private JMenuItem jMenuItemPontoVendaCadastrar;
-
+    private JMenuItem jMenuItemReservaConsultar;
+    private JMenuItem jMenuItemReservaCadastrar;
 
 }
