@@ -30,6 +30,9 @@ public class ConsultarFuncionario extends JFrame {
         tableModel = new DefaultTableModel(new String[]{"ID", "Nome", "CPF", "Email", "Cargo"}, 0);
         tabelaFuncionarios = new JTable(tableModel);
 
+        // Desativa a edição de células
+        tabelaFuncionarios.setDefaultEditor(Object.class, null);
+
         JScrollPane scrollPane = new JScrollPane(tabelaFuncionarios);
         add(scrollPane, BorderLayout.CENTER);
 

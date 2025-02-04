@@ -1,11 +1,13 @@
 package vvv.view.Funcionario;
 
 import vvv.controller.FuncionarioController;
+import vvv.model.PontoVenda;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CadastrarFuncionario extends JFrame {
 
@@ -16,65 +18,73 @@ public class CadastrarFuncionario extends JFrame {
     private JTextField txtEmail;
     private JPasswordField txtSenha;
     private JCheckBox chkCargo;
-    private JTextField txtPontoDeVenda;
+    private JComboBox<String> cmbPontoDeVenda;
+    private JButton btnSalvar;
+
+    private Map<Long, String> pontosVenda;
 
     public CadastrarFuncionario() {
         funcionarioController = new FuncionarioController();
+        carregarDados();
 
         setTitle("Cadastrar Funcionário");
-        setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(400, 400);
         setLocationRelativeTo(null);
+        setLayout(new BorderLayout(10, 10));
 
-        // Layout principal
-        setLayout(new GridLayout(7, 2, 10, 10));
+        // Painel principal com borda para espaçamento
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridBagLayout());
+        mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Campos de entrada
-        add(new JLabel("Nome:"));
-        txtNome = new JTextField();
-        add(txtNome);
+        // Adiciona os componentes
+        int row = 0;
 
-        add(new JLabel("CPF:"));
-        txtCpf = new JTextField();
-        add(txtCpf);
+        addField(mainPanel, gbc, row++, "Nome:", txtNome = new JTextField());
+        addField(mainPanel, gbc, row++, "CPF:", txtCpf = new JTextField());
+        addField(mainPanel, gbc, row++, "Email:", txtEmail = new JTextField());
+        addField(mainPanel, gbc, row++, "Senha:", txtSenha = new JPasswordField());
+        addField(mainPanel, gbc, row++, "Cargo (Gerente):", chkCargo = new JCheckBox("Gerente"));
+        addField(mainPanel, gbc, row++, "Ponto de Venda:", cmbPontoDeVenda = new JComboBox<>(pontosVenda.values().toArray(new String[0])));
 
-        add(new JLabel("Email:"));
-        txtEmail = new JTextField();
-        add(txtEmail);
+        // Botão Salvar
+        btnSalvar = new JButton("Salvar");
+        btnSalvar.addActionListener(e -> salvarFuncionario());
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.add(btnSalvar);
 
-        add(new JLabel("Senha:"));
-        txtSenha = new JPasswordField();
-        add(txtSenha);
+        // Adiciona o painel principal e o botão ao frame
+        add(mainPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
 
-        add(new JLabel("Cargo (Gerente):"));
-        chkCargo = new JCheckBox();
-        add(chkCargo);
+        setVisible(true);
+    }
 
-        add(new JLabel("ID do Ponto de Venda:"));
-        txtPontoDeVenda = new JTextField();
-        add(txtPontoDeVenda);
+    private void carregarDados() {
+        try {
+            pontosVenda = funcionarioController.listarPontosVenda()
+                                                .stream()
+                                                .collect(Collectors.toMap(PontoVenda::getIdPontoVenda, PontoVenda::getNome));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao carregar os pontos de venda: " + e.getMessage());
+        }
+    }
 
-        // Botão de salvar
-        JButton btnSalvar = new JButton("Salvar");
-        add(btnSalvar);
+    private void addField(JPanel panel, GridBagConstraints gbc, int row, String label, JComponent field) {
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 1;
+        panel.add(new JLabel(label), gbc);
 
-        JButton btnCancelar = new JButton("Cancelar");
-        add(btnCancelar);
-
-        // Ações dos botões
-        btnSalvar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                salvarFuncionario();
-            }
-        });
-
-        btnCancelar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        gbc.gridx = 1;
+        gbc.gridwidth = 6;  // Ajuste para o tamanho desejado
+        field.setPreferredSize(new Dimension(field.getPreferredSize().width * 2, field.getPreferredSize().height));  // Ajuste dinâmico
+        panel.add(field, gbc);
     }
 
     private void salvarFuncionario() {
@@ -84,7 +94,7 @@ public class CadastrarFuncionario extends JFrame {
             String email = txtEmail.getText();
             String senha = new String(txtSenha.getPassword());
             boolean cargo = chkCargo.isSelected();
-            long pontoDeVendaId = Long.parseLong(txtPontoDeVenda.getText());
+            long pontoDeVendaId = (Long) cmbPontoDeVenda.getSelectedItem();
 
             boolean sucesso = funcionarioController.salvarFuncionario(nome, cpf, email, senha, cargo, pontoDeVendaId);
 
@@ -94,8 +104,6 @@ public class CadastrarFuncionario extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Erro ao cadastrar o funcionário.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Por favor, insira um ID de Ponto de Venda válido.", "Erro", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro ao cadastrar o funcionário.", "Erro", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
@@ -108,7 +116,7 @@ public class CadastrarFuncionario extends JFrame {
         txtEmail.setText("");
         txtSenha.setText("");
         chkCargo.setSelected(false);
-        txtPontoDeVenda.setText("");
+        cmbPontoDeVenda.setSelectedIndex(0);  // Resetar o ComboBox
     }
 
     public static void main(String[] args) {

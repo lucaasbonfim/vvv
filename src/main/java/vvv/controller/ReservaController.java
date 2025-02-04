@@ -121,4 +121,11 @@ public class ReservaController {
     public List<Funcionario> listarFuncionarios() {
         return funcionarioDAO.listar();
     }
+
+    public boolean editarReserva(Long reservaId, LocalDate dataReserva, boolean statusReserva, LocalDate dataViagem,
+            String partida, String chegada, BigDecimal valor, Long passageiroId, Long modalTransporteId,
+            Long pontoVendaId, Long funcionarioId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'editarReserva'");
+    }
 }

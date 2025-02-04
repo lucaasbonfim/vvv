@@ -18,7 +18,7 @@ public class EditarFuncionario extends JFrame {
     private JTextField txtEmail;
     private JPasswordField txtSenha;
     private JCheckBox chkCargo;
-    private JTextField txtPontoVendaId;
+    private JLabel lblPontoVenda;
 
     public EditarFuncionario(Funcionario funcionario) {
         this.funcionarioController = new FuncionarioController();
@@ -53,9 +53,12 @@ public class EditarFuncionario extends JFrame {
         chkCargo.setSelected(funcionario.getCargo());
         add(chkCargo);
 
-        add(new JLabel("ID do Ponto de Venda:"));
-        txtPontoVendaId = new JTextField(String.valueOf(funcionario.getPontoDeVenda().getIdPontoVenda()));
-        add(txtPontoVendaId);
+        add(new JLabel("Ponto de Venda:"));
+        // Mostrar apenas o nome do Ponto de Venda
+        lblPontoVenda = new JLabel(funcionario.getPontoDeVenda() != null 
+            ? funcionario.getPontoDeVenda().getNome() 
+            : "Sem Ponto de Venda");
+        add(lblPontoVenda);
 
         // Botões
         JButton btnSalvar = new JButton("Salvar");
@@ -87,9 +90,10 @@ public class EditarFuncionario extends JFrame {
             String email = txtEmail.getText();
             String senha = new String(txtSenha.getPassword());
             boolean cargo = chkCargo.isSelected();
-            Long pontoVendaId = Long.parseLong(txtPontoVendaId.getText());
 
-            boolean sucesso = funcionarioController.editarFuncionario(funcionario.getIdFuncionario(), nome, cpf, email, senha, cargo, pontoVendaId);
+            // Como o Ponto de Venda não pode ser editado, não incluímos pontoVendaId aqui
+            boolean sucesso = funcionarioController.editarFuncionario(
+                funcionario.getIdFuncionario(), nome, cpf, email, senha, cargo, null);
 
             if (sucesso) {
                 JOptionPane.showMessageDialog(this, "Funcionário editado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
@@ -97,8 +101,6 @@ public class EditarFuncionario extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Erro ao editar o funcionário.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Por favor, insira valores válidos nos campos numéricos.", "Erro", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro ao editar o funcionário.", "Erro", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
@@ -114,8 +116,12 @@ public class EditarFuncionario extends JFrame {
             mockFuncionario.setEmail("joao.silva@email.com");
             mockFuncionario.setSenha("123456");
             mockFuncionario.setCargo(true);
-            mockFuncionario.setPontoDeVenda(new vvv.model.PontoVenda());
-            mockFuncionario.getPontoDeVenda().setIdPontoVenda(2L);
+
+            // Simulando um ponto de venda
+            vvv.model.PontoVenda mockPontoVenda = new vvv.model.PontoVenda();
+            mockPontoVenda.setIdPontoVenda(2L);
+            mockPontoVenda.setNome("Loja Central");
+            mockFuncionario.setPontoDeVenda(mockPontoVenda);
 
             EditarFuncionario tela = new EditarFuncionario(mockFuncionario);
             tela.setVisible(true);

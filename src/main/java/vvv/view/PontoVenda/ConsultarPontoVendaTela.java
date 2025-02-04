@@ -20,7 +20,7 @@ public class ConsultarPontoVendaTela extends JFrame {
     public ConsultarPontoVendaTela() {
         setTitle("Consultar Ponto de Venda");
         setSize(600, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         pontoVendaController = new PontoVendaController();

@@ -2,8 +2,15 @@ package vvv.controller;
 
 import vvv.model.Funcionario;
 import vvv.model.DAOs.FuncionarioDAO;
+import vvv.model.DAOs.PontoVendaDAO;
 import vvv.model.PontoVenda;
+import vvv.model.DAOs.PontoVendaDAO;
 
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FuncionarioController {
@@ -66,5 +73,14 @@ public class FuncionarioController {
 
     public List<Funcionario> buscarFuncionariosPorNome(String nome) {
         return funcionarioDAO.buscarPorNome(nome);
+    }
+
+    public List<PontoVenda> listarPontosVenda() throws Exception {
+        PontoVendaDAO pontoVendaDAO = new PontoVendaDAO();
+        return pontoVendaDAO.listar();
+    }
+
+    public Funcionario autenticarFuncionario(String email, String senha) {
+        return funcionarioDAO.autenticar(email, senha);
     }
 }

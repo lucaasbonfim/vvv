@@ -23,21 +23,26 @@ public class ConsultarReserva extends JFrame {
 
     private void configurarJanela() {
         setTitle("Consultar Reservas");
-        setSize(800, 600);
+        setSize(700, 500);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
 
         // Tabela
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(20, 20, 740, 500);
+        scrollPane.setBounds(20, 20, 640, 400);
         add(scrollPane);
 
         tabelaReservas = new JTable();
         modeloTabela = new DefaultTableModel(
             new Object[]{"ID", "Data Reserva", "Status", "Partida", "Chegada", "Valor"},
             0
-        );
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Impede a edição direta dos dados na tabela
+            }
+        };
         tabelaReservas.setModel(modeloTabela);
         tabelaReservas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         scrollPane.setViewportView(tabelaReservas);

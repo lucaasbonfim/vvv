@@ -131,6 +131,20 @@ public class ModalDAO {
         return modais;
     }
 
+    public boolean deletar(long id) {
+        try (Connection conn = DriverManager.getConnection(connectionString, user, password)) {
+            String sql = "DELETE FROM modal WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setLong(1, id);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+
 }
 
 

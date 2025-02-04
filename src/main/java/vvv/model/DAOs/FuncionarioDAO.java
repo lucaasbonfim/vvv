@@ -133,4 +133,48 @@ public class FuncionarioDAO {
         }
         return funcionarios;
     }
+
+    public boolean deletar(long id) {
+        try (Connection conn = DriverManager.getConnection(connectionString, user, password)) {
+            String sql = "DELETE FROM funcionario WHERE id_funcionario = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setLong(1, id);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public Funcionario autenticar(String email, String senha) {
+        Funcionario funcionario = null;
+        try (Connection conn = DriverManager.getConnection(connectionString, user, password)) {
+            String sql = "SELECT * FROM funcionario WHERE email = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+    
+            if (rs.next()) {
+                String senhaArmazenada = rs.getString("senha");
+                if (senhaArmazenada.equals(senha)) {
+                    funcionario = new Funcionario();
+                    funcionario.setIdFuncionario(rs.getLong("id"));
+                    funcionario.setNome(rs.getString("nome"));
+                    funcionario.setCpf(rs.getString("cpf"));
+                    funcionario.setEmail(rs.getString("email"));
+                    funcionario.setSenha(rs.getString("senha"));
+                    funcionario.setCargo(rs.getBoolean("tipo"));
+    
+                    PontoVenda pontoVenda = new PontoVenda();
+                    pontoVenda.setIdPontoVenda(rs.getLong("id_ponto_venda"));
+                    funcionario.setPontoDeVenda(pontoVenda);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return funcionario; // Retorna null caso a autenticação falhe
+    }
+    
 }

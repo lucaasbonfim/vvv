@@ -9,13 +9,25 @@ import vvv.model.Passageiro;
 public class PassageiroDAO {
 
     private String connectionString = "jdbc:postgresql://ep-snowy-flower-a530o2l7.us-east-2.aws.neon.tech/neondb?sslmode=require";
-
     private String user = "neondb_owner";
-
     private String password = "sqy8BA9lNnRz";
 
+    private Connection conn; // Definir uma variável para a conexão
+
+    public PassageiroDAO(Connection conn) {
+        this.conn = conn;
+    }
+
+    public PassageiroDAO() {
+        try {
+            this.conn = DriverManager.getConnection(connectionString, user, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean salvar(Passageiro passageiro) {
-        try (Connection conn = DriverManager.getConnection(connectionString, user, password)) {
+        try {
             String sql = "INSERT INTO passageiro (nome, email, cpf, telefone, data_nascimento) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, passageiro.getNome());
@@ -32,7 +44,7 @@ public class PassageiroDAO {
     }
 
     public boolean editar(Passageiro passageiro) {
-        try (Connection conn = DriverManager.getConnection(connectionString, user, password)) {
+        try {
             String sql = "UPDATE passageiro SET nome = ?, email = ?, cpf = ?, telefone = ?, data_nascimento = ? WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, passageiro.getNome());
@@ -51,7 +63,7 @@ public class PassageiroDAO {
 
     public List<Passageiro> listar() {
         List<Passageiro> passageiros = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(connectionString,user,password)) {
+        try {
             String sql = "SELECT * FROM passageiro";
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
@@ -65,7 +77,7 @@ public class PassageiroDAO {
                     rs.getDate("data_nascimento").toLocalDate()
                 );
 
-                passageiro.setId(rs.getLong(("id")));
+                passageiro.setId(rs.getLong("id"));
 
                 passageiros.add(passageiro);
             }
@@ -77,7 +89,7 @@ public class PassageiroDAO {
 
     public Passageiro buscarPorId(long id) {
         Passageiro passageiro = null; // Inicializamos como null caso o ID não exista
-        try (Connection conn = DriverManager.getConnection(connectionString, user, password)) {
+        try {
             String sql = "SELECT * FROM passageiro WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setLong(1, id); // Configura o parâmetro do ID
@@ -102,7 +114,7 @@ public class PassageiroDAO {
 
     public List<Passageiro> listarPassageirosPorNome(String nome) {
         List<Passageiro> passageiros = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(connectionString, user, password)) {
+        try {
             String sql = "SELECT * FROM passageiro WHERE nome LIKE ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, "%" + nome + "%"); // Utiliza LIKE para buscar por nome
@@ -126,4 +138,16 @@ public class PassageiroDAO {
         return passageiros;
     }
     
+    public boolean deletar(long id) {
+        try {
+            String sql = "DELETE FROM passageiro WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setLong(1, id);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

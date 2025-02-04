@@ -3,9 +3,8 @@ package vvv.view.Modal;
 import vvv.controller.ModalController;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class CadastrarModal extends JFrame {
 
@@ -16,60 +15,58 @@ public class CadastrarModal extends JFrame {
     private JTextField txtAnoFabricacao;
     private JTextField txtTipo;
     private JCheckBox chkAtivo;
+    private JButton btnSalvar;
 
     public CadastrarModal() {
         modalController = new ModalController();
 
         setTitle("Cadastrar Modal");
-        setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(400, 400);
         setLocationRelativeTo(null);
+        setLayout(new BorderLayout(10, 10));
 
-        // Layout principal
-        setLayout(new GridLayout(6, 2, 10, 10));
+        // Painel principal com borda para espaçamento
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridBagLayout());
+        mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Campos de entrada
-        add(new JLabel("Modelo:"));
-        txtModelo = new JTextField();
-        add(txtModelo);
+        // Adiciona os componentes
+        int row = 0;
 
-        add(new JLabel("Capacidade:"));
-        txtCapacidade = new JTextField();
-        add(txtCapacidade);
+        addField(mainPanel, gbc, row++, "Modelo:", txtModelo = new JTextField());
+        addField(mainPanel, gbc, row++, "Capacidade:", txtCapacidade = new JTextField());
+        addField(mainPanel, gbc, row++, "Ano de Fabricação:", txtAnoFabricacao = new JTextField());
+        addField(mainPanel, gbc, row++, "Tipo:", txtTipo = new JTextField());
+        addField(mainPanel, gbc, row++, "Ativo:", chkAtivo = new JCheckBox("Ativo"));
 
-        add(new JLabel("Ano de Fabricação:"));
-        txtAnoFabricacao = new JTextField();
-        add(txtAnoFabricacao);
+        // Botão Salvar
+        btnSalvar = new JButton("Salvar");
+        btnSalvar.addActionListener(e -> salvarModal());
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.add(btnSalvar);
 
-        add(new JLabel("Tipo:"));
-        txtTipo = new JTextField();
-        add(txtTipo);
+        // Adiciona o painel principal e o botão ao frame
+        add(mainPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
 
-        add(new JLabel("Ativo:"));
-        chkAtivo = new JCheckBox();
-        add(chkAtivo);
+        setVisible(true);
+    }
 
-        // Botão de salvar
-        JButton btnSalvar = new JButton("Salvar");
-        add(btnSalvar);
+    private void addField(JPanel panel, GridBagConstraints gbc, int row, String label, JComponent field) {
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 1;
+        panel.add(new JLabel(label), gbc);
 
-        JButton btnCancelar = new JButton("Cancelar");
-        add(btnCancelar);
-
-        // Ações dos botões
-        btnSalvar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                salvarModal();
-            }
-        });
-
-        btnCancelar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        gbc.gridx = 1;
+        gbc.gridwidth = 6;  // Ajuste para o tamanho desejado (dobro da largura)
+        field.setPreferredSize(new Dimension(field.getPreferredSize().width * 2, field.getPreferredSize().height));  // Ajuste dinâmico
+        panel.add(field, gbc);
     }
 
     private void salvarModal() {

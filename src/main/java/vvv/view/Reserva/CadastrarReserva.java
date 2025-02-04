@@ -7,6 +7,10 @@ import vvv.model.Passageiro;
 import vvv.model.PontoVenda;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
+import com.formdev.flatlaf.FlatDarkLaf;
+
 import java.awt.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -30,7 +34,6 @@ public class CadastrarReserva extends JFrame {
 
     private ReservaController reservaController;
 
-    // Mapas para armazenar os nomes e IDs
     private Map<Long, String> passageiros;
     private Map<Long, String> modaisTransporte;
     private Map<Long, String> pontosVenda;
@@ -38,86 +41,96 @@ public class CadastrarReserva extends JFrame {
 
     public CadastrarReserva() {
         reservaController = new ReservaController();
-        carregarDados(); // Carregar dados antes de configurar os campos
+        carregarDados();
+
+        UIManager.put("FlatLaf.classicScheme", new FlatDarkLaf());
 
         setTitle("Cadastrar Reserva");
-        setSize(400, 500);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(new GridLayout(10, 2, 5, 5));
-
-        // Campos do formulário
-        add(new JLabel("Partida:"));
-        txtPartida = new JTextField();
-        add(txtPartida);
-
-        add(new JLabel("Chegada:"));
-        txtChegada = new JTextField();
-        add(txtChegada);
-
-        add(new JLabel("Valor:"));
-        txtValor = new JTextField();
-        add(txtValor);
-
-        add(new JLabel("Passageiro:"));
-        cmbPassageiro = new JComboBox<>(passageiros.values().toArray(new String[0]));
-        add(cmbPassageiro);
-
-        add(new JLabel("Modal Transporte:"));
-        cmbModalTransporte = new JComboBox<>(modaisTransporte.values().toArray(new String[0]));
-        add(cmbModalTransporte);
-
-        add(new JLabel("Ponto Venda:"));
-        cmbPontoVenda = new JComboBox<>(pontosVenda.values().toArray(new String[0]));
-        add(cmbPontoVenda);
-
-        add(new JLabel("Funcionário:"));
-        cmbFuncionario = new JComboBox<>(funcionarios.values().toArray(new String[0]));
-        add(cmbFuncionario);
-
-        add(new JLabel("Status da Reserva:"));
-        chkStatusReserva = new JCheckBox("Ativa");
-        add(chkStatusReserva);
-
-        add(new JLabel("Data da Viagem:"));
-        spnDataViagem = new JSpinner(new SpinnerDateModel());
-        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spnDataViagem, "dd/MM/yyyy"); // Formato brasileiro
-        spnDataViagem.setEditor(dateEditor); 
-        add(spnDataViagem);
-
-        btnSalvar = new JButton("Salvar");
-        add(btnSalvar);
-
-        // Ação do botão salvar
-        btnSalvar.addActionListener(e -> salvarReserva());
-
+        setSize(400, 500);
         setLocationRelativeTo(null);
+        setLayout(new BorderLayout(10, 10));
+
+        // Painel principal com borda para espaçamento
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridBagLayout());
+        mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Adiciona os componentes
+        int row = 0;
+
+        addField(mainPanel, gbc, row++, "Partida:", txtPartida = new JTextField());
+        addField(mainPanel, gbc, row++, "Chegada:", txtChegada = new JTextField());
+        addField(mainPanel, gbc, row++, "Valor:", txtValor = new JTextField());
+        addField(mainPanel, gbc, row++, "Passageiro:", cmbPassageiro = new JComboBox<>(passageiros.values().toArray(new String[0])));
+        addField(mainPanel, gbc, row++, "Modal Transporte:", cmbModalTransporte = new JComboBox<>(modaisTransporte.values().toArray(new String[0])));
+        addField(mainPanel, gbc, row++, "Ponto Venda:", cmbPontoVenda = new JComboBox<>(pontosVenda.values().toArray(new String[0])));
+        addField(mainPanel, gbc, row++, "Funcionário:", cmbFuncionario = new JComboBox<>(funcionarios.values().toArray(new String[0])));
+        addField(mainPanel, gbc, row++, "Status da Reserva:", chkStatusReserva = new JCheckBox("Ativa"));
+
+        // Data da viagem com Spinner
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 1;
+        mainPanel.add(new JLabel("Data da Viagem:"), gbc);
+
+        gbc.gridx = 1;
+        spnDataViagem = new JSpinner(new SpinnerDateModel());
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spnDataViagem, "dd/MM/yyyy");
+        spnDataViagem.setEditor(dateEditor);
+        mainPanel.add(spnDataViagem, gbc);
+
+        // Botão Salvar
+        btnSalvar = new JButton("Salvar");
+        btnSalvar.addActionListener(e -> salvarReserva());
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.add(btnSalvar);
+
+        // Adiciona o painel principal e o botão ao frame
+        add(mainPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        // Torna visível
+        setVisible(true);
+
+        System.out.println(UIManager.getLookAndFeel().getName());
+    }
+
+    private void addField(JPanel panel, GridBagConstraints gbc, int row, String label, JComponent field) {
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 5;
+        panel.add(new JLabel(label), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridwidth = 2;
+        field.setPreferredSize(new Dimension(field.getPreferredSize().width * 2, field.getPreferredSize().height));  // Ajuste dinâmico
+        panel.add(field, gbc);
     }
 
     private void carregarDados() {
         try {
-            // Lista de passageiros para um Map<Long, String>
             ArrayList<Passageiro> listaPassageiros = (ArrayList<Passageiro>) reservaController.listarPassageiros();
             passageiros = listaPassageiros.stream()
-                                          .collect(Collectors.toMap(Passageiro::getId, Passageiro::getNome));
+                    .collect(Collectors.toMap(Passageiro::getId, Passageiro::getNome));
 
-            // Lista de modais transporte para um Map<Long, String>
             ArrayList<ModalTransporte> listaModais = (ArrayList<ModalTransporte>) reservaController.listarModais();
             modaisTransporte = listaModais.stream()
-                                          .collect(Collectors.toMap(ModalTransporte::getIdModal, ModalTransporte::getTipo));
+                    .collect(Collectors.toMap(ModalTransporte::getIdModal, ModalTransporte::getTipo));
 
-            // Lista de pontos de venda para um Map<Long, String>
             ArrayList<PontoVenda> listaPontosVenda = (ArrayList<PontoVenda>) reservaController.listarPontosVenda();
             pontosVenda = listaPontosVenda.stream()
-                                          .collect(Collectors.toMap(PontoVenda::getIdPontoVenda, PontoVenda::getNome));
+                    .collect(Collectors.toMap(PontoVenda::getIdPontoVenda, PontoVenda::getNome));
 
-            // Lista de funcionários para um Map<Long, String>
-            ArrayList<Funcionario> listaFuncionarios = (ArrayList<Funcionario>) reservaController.listarFuncionarios();  // Usando ArrayList diretamente
+            ArrayList<Funcionario> listaFuncionarios = (ArrayList<Funcionario>) reservaController.listarFuncionarios();
             funcionarios = listaFuncionarios.stream()
-                                            .collect(Collectors.toMap(Funcionario::getIdFuncionario, Funcionario::getNome));
-
+                    .collect(Collectors.toMap(Funcionario::getIdFuncionario, Funcionario::getNome));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar os dados: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -127,7 +140,6 @@ public class CadastrarReserva extends JFrame {
             String chegada = txtChegada.getText();
             BigDecimal valor = new BigDecimal(txtValor.getText());
 
-            // Recuperar os IDs selecionados
             Long passageiroId = getKeyByValue(passageiros, (String) cmbPassageiro.getSelectedItem());
             Long modalTransporteId = getKeyByValue(modaisTransporte, (String) cmbModalTransporte.getSelectedItem());
             Long pontoVendaId = getKeyByValue(pontosVenda, (String) cmbPontoVenda.getSelectedItem());
@@ -138,28 +150,16 @@ public class CadastrarReserva extends JFrame {
                     .atZone(java.time.ZoneId.systemDefault()).toLocalDate();
             LocalDateTime dataReserva = LocalDateTime.now();
 
-            boolean sucesso = reservaController.salvarReserva(
-                dataReserva,
-                statusReserva,
-                dataViagem,
-                partida,
-                chegada,
-                valor,
-                passageiroId,
-                modalTransporteId,
-                pontoVendaId,
-                funcionarioId
-            );
+            boolean sucesso = reservaController.salvarReserva(dataReserva, statusReserva, dataViagem, partida, chegada, valor, passageiroId, modalTransporteId, pontoVendaId, funcionarioId);
 
             if (sucesso) {
                 JOptionPane.showMessageDialog(this, "Reserva salva com sucesso!");
-                dispose(); // Fechar a tela após salvar
+                dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Erro ao salvar a reserva.");
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro: " + ex.getMessage());
-            ex.printStackTrace();
         }
     }
 
@@ -169,11 +169,5 @@ public class CadastrarReserva extends JFrame {
                 .map(Map.Entry::getKey)
                 .findFirst()
                 .orElse(null);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new CadastrarReserva().setVisible(true);
-        });
     }
 }

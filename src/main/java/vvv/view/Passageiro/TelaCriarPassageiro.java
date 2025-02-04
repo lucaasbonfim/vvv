@@ -1,163 +1,140 @@
 package vvv.view.Passageiro;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
 import vvv.controller.PassageiroController;
 
-public class TelaCriarPassageiro extends JDialog {
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
-    private JTextField txtNome, txtEmail, txtTelefone, txtCPF, txtDataNascimento;
-    private PassageiroController passageiroController; // A controller
+import com.formdev.flatlaf.FlatDarkLaf;
 
-    public TelaCriarPassageiro(Frame parent) {
-        super(parent, "Cadastro de Passageiro", true);
-        passageiroController = new PassageiroController(); // Inicializando a controller
-        initComponents();
-    }
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-    private void initComponents() {
+public class TelaCriarPassageiro extends JFrame {
+
+    private JTextField txtNome, txtEmail, txtTelefone, txtCPF;
+    private JSpinner spnDataNascimento;
+    private PassageiroController passageiroController;
+    private JButton btnSalvar;
+
+    public TelaCriarPassageiro() {
+        passageiroController = new PassageiroController();
+
+        UIManager.put("FlatLaf.classicScheme", new FlatDarkLaf());
+
+        setTitle("Cadastro de Passageiro");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(400, 400);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(10, 10));
 
-        // Painel principal
-        JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        // Painel principal com borda para espaçamento
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridBagLayout());
+        mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Componentes
-        JLabel lblNome = new JLabel("Nome:");
-        txtNome = new JTextField();
+        // Adiciona os componentes
+        int row = 0;
 
-        JLabel lblEmail = new JLabel("Email:");
-        txtEmail = new JTextField();
+        addField(mainPanel, gbc, row++, "Nome:", txtNome = new JTextField());
+        addField(mainPanel, gbc, row++, "Email:", txtEmail = new JTextField());
+        addField(mainPanel, gbc, row++, "Telefone:", txtTelefone = new JTextField());
+        addField(mainPanel, gbc, row++, "CPF:", txtCPF = new JTextField());
 
-        JLabel lblTelefone = new JLabel("Telefone:");
-        txtTelefone = new JTextField();
+        // Campo para Data de Nascimento
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 1;
+        mainPanel.add(new JLabel("Data de Nascimento:"), gbc);
 
-        JLabel lblCPF = new JLabel("CPF:");
-        txtCPF = new JTextField();
+        gbc.gridx = 1;
+        spnDataNascimento = new JSpinner(new SpinnerDateModel());
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spnDataNascimento, "dd/MM/yyyy");
+        spnDataNascimento.setEditor(dateEditor);
+        mainPanel.add(spnDataNascimento, gbc);
+        row++;
 
-        JLabel lblDataNascimento = new JLabel("Data de Nascimento:");
-        txtDataNascimento = new JTextField();
+        // Botão Salvar
+        btnSalvar = new JButton("Salvar");
+        btnSalvar.addActionListener(this::validarFormulario);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.add(btnSalvar);
 
-        // Adicionando os componentes ao painel
-        panel.add(lblNome);
-        panel.add(txtNome);
+        // Adiciona o painel principal e o botão ao frame
+        add(mainPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
 
-        panel.add(lblEmail);
-        panel.add(txtEmail);
-
-        panel.add(lblTelefone);
-        panel.add(txtTelefone);
-
-        panel.add(lblCPF);
-        panel.add(txtCPF);
-
-        panel.add(lblDataNascimento);
-        panel.add(txtDataNascimento);
-
-        // Botões
-        JPanel panelBotoes = new JPanel();
-        JButton btnSalvar = new JButton("Salvar");
-        JButton btnCancelar = new JButton("Cancelar");
-
-        btnSalvar.addActionListener(e -> validarFormulario());
-        btnCancelar.addActionListener(e -> dispose());
-
-        panelBotoes.add(btnSalvar);
-        panelBotoes.add(btnCancelar);
-
-        add(panel, BorderLayout.CENTER);
-        add(panelBotoes, BorderLayout.SOUTH);
-
-        // Evitar digitação de letras
-        txtTelefone.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                if (!Character.isDigit(e.getKeyChar()) || txtTelefone.getText().length() >= 11) {
-                    e.consume();  // Impede a digitação de caracteres não numéricos e limita a 11 caracteres
-                }
-            }
-        });
-
-        txtCPF.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                if (!Character.isDigit(e.getKeyChar()) || txtCPF.getText().length() >= 11) {
-                    e.consume();  // Impede a digitação de caracteres não numéricos e limita a 11 caracteres
-                }
-            }
-        });
-
-        // Formatação do campo de Data de Nascimento
-        txtDataNascimento.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                // Impede a digitação de mais de 8 caracteres e garante que só números sejam inseridos
-                if (!Character.isDigit(e.getKeyChar()) || txtDataNascimento.getText().length() >= 10) {
-                    e.consume();
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                String text = txtDataNascimento.getText();
-                if (text.length() > 2 && text.length() <= 4 && !text.contains("/")) {
-                    txtDataNascimento.setText(text.substring(0, 2) + "/" + text.substring(2));
-                }
-                if (text.length() > 5 && text.length() <= 7 && text.charAt(2) == '/') {
-                    txtDataNascimento.setText(text.substring(0, 5) + "/" + text.substring(5));
-                }
-            }
-        });
-
+        // Torna visível
         setVisible(true);
     }
 
-    private void validarFormulario() {
-        // Validação do nome
-        if (txtNome.getText().trim().isEmpty()) {
+    private void addField(JPanel panel, GridBagConstraints gbc, int row, String label, JComponent field) {
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 1;
+        panel.add(new JLabel(label), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridwidth = 6;  // Ajuste para o tamanho desejado
+        field.setPreferredSize(new Dimension(field.getPreferredSize().width * 2, field.getPreferredSize().height));  // Ajuste dinâmico
+        panel.add(field, gbc);
+    }
+
+    private void validarFormulario(ActionEvent e) {
+        String nome = txtNome.getText().trim();
+        String email = txtEmail.getText().trim();
+        String telefone = txtTelefone.getText().trim();
+        String cpf = txtCPF.getText().trim();
+
+        // Obtém a data do Spinner e formata para texto
+        LocalDate dataNascimento = ((SpinnerDateModel) spnDataNascimento.getModel()).getDate().toInstant()
+                .atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+        String dataNascimentoStr = dataNascimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        if (nome.isEmpty()) {
             JOptionPane.showMessageDialog(this, "O campo Nome não pode estar vazio.", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Validação do email
-        String email = txtEmail.getText();
         if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
             JOptionPane.showMessageDialog(this, "Email inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Validação do CPF
-        String cpf = txtCPF.getText().replaceAll("\\D", "");  // Remove tudo o que não é número
-        if (cpf.length() != 11) {
-            JOptionPane.showMessageDialog(this, "CPF inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
+        if (telefone.length() != 11 || !telefone.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Telefone deve conter 11 dígitos numéricos.", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Validação do telefone
-        String telefone = txtTelefone.getText().replaceAll("\\D", "");  // Remove tudo o que não é número
-        if (telefone.length() != 11) {
-            JOptionPane.showMessageDialog(this, "Telefone inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
+        if (cpf.length() != 11 || !cpf.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "CPF deve conter 11 dígitos numéricos.", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Validação da data de nascimento
-        String dataNascimento = txtDataNascimento.getText(); //.replaceAll("\\D", "");  // Remove tudo o que não é número
-        if (dataNascimento.length() != 10) {
-            JOptionPane.showMessageDialog(this, "Data de nascimento inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        salvarPassageiro(nome, email, telefone, cpf, dataNascimentoStr);
+    }
 
-        // Chama a controller para salvar o passageiro
-        boolean sucesso = passageiroController.salvarPassageiro(txtNome.getText(), txtEmail.getText(), cpf, telefone, dataNascimento);
+    private void salvarPassageiro(String nome, String email, String telefone, String cpf, String dataNascimento) {
+        boolean sucesso = passageiroController.salvarPassageiro(nome, email, cpf, telefone, dataNascimento);
 
         if (sucesso) {
-            JOptionPane.showMessageDialog(this, "Passageiro salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Passageiro salvo com sucesso!");
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao salvar passageiro.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            TelaCriarPassageiro tela = new TelaCriarPassageiro();
+            tela.setVisible(true);
+        });
     }
 }
