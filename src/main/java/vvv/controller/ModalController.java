@@ -53,4 +53,15 @@ public class ModalController {
     public List<ModalTransporte> buscarPorNome(String nome) {
         return modalDAO.listarModaisPorNome(nome);
     }
+
+    public boolean deletarModal(Long idModal) {
+        try {
+            boolean sucesso = modalDAO.deletar(idModal);
+
+            return sucesso;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

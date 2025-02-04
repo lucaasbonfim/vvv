@@ -1,14 +1,18 @@
 package vvv.view.Modal;
 
+import vvv.controller.ModalController;
 import vvv.model.ModalTransporte;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class EditarModal extends JFrame {
     private ModalTransporte modal;
+    private ModalController modalController;
 
     public EditarModal(ModalTransporte modal) {
         this.modal = modal;
+        this.modalController = new ModalController();  // Controlador que gerencia a lógica do modal
 
         setTitle("Editar Modal");
         setSize(400, 300);
@@ -17,7 +21,7 @@ public class EditarModal extends JFrame {
 
         setLayout(new BorderLayout());
 
-        JPanel painelCampos = new JPanel(new GridLayout(5, 2));
+        JPanel painelCampos = new JPanel(new GridLayout(6, 2));
         painelCampos.add(new JLabel("Modelo:"));
         JTextField txtModelo = new JTextField(modal.getModelo());
         painelCampos.add(txtModelo);
@@ -49,9 +53,48 @@ public class EditarModal extends JFrame {
             modal.setAtivo(checkAtivo.isSelected());
 
             JOptionPane.showMessageDialog(this, "Modal atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            dispose(); 
+            dispose();
         });
 
-        add(btnSalvar, BorderLayout.SOUTH);
+        JButton btnDeletar = new JButton("Deletar");
+        btnDeletar.addActionListener(e -> {
+            int resposta = JOptionPane.showConfirmDialog(
+                    this,
+                    "Tem certeza que deseja excluir este modal?",
+                    "Confirmar Deletação",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            if (resposta == JOptionPane.YES_OPTION) {
+                boolean sucesso = modalController.deletarModal(modal.getIdModal());
+                if (sucesso) {
+                    JOptionPane.showMessageDialog(this, "Modal deletado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao deletar o modal.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        JPanel painelBotoes = new JPanel(new FlowLayout());
+        painelBotoes.add(btnSalvar);
+        painelBotoes.add(btnDeletar);
+        add(painelBotoes, BorderLayout.SOUTH);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            ModalTransporte mockModal = new ModalTransporte();
+            mockModal.setIdModal(1L);
+            mockModal.setModelo("Caminhão X");
+            mockModal.setCapacidade(2000);
+            mockModal.setAnoFabricacao(2022);
+            mockModal.setTipo("Caminhão");
+            mockModal.setAtivo(true);
+
+            EditarModal tela = new EditarModal(mockModal);
+            tela.setVisible(true);
+        });
     }
 }

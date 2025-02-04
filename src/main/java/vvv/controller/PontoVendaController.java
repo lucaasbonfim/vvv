@@ -52,4 +52,13 @@ public class PontoVendaController {
     public List<PontoVenda> buscarPorNome(String nome) {
         return pontoVendaDAO.listarPontoVendasPorNome(nome);
     }
+
+    public boolean deletarPontoVenda(long idPontoVenda) {
+        try {
+            return pontoVendaDAO.deletar(idPontoVenda);  // Chama o método do DAO para deletar o ponto de venda
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

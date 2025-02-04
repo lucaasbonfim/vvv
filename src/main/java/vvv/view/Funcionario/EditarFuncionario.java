@@ -29,7 +29,7 @@ public class EditarFuncionario extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        setLayout(new GridLayout(7, 2, 10, 10));
+        setLayout(new GridLayout(8, 2, 10, 10));
 
         add(new JLabel("Nome:"));
         txtNome = new JTextField(funcionario.getNome());
@@ -64,6 +64,10 @@ public class EditarFuncionario extends JFrame {
         JButton btnCancelar = new JButton("Cancelar");
         add(btnCancelar);
 
+        // Novo botão Deletar
+        JButton btnDeletar = new JButton("Deletar");
+        add(btnDeletar);
+
         btnSalvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,6 +79,23 @@ public class EditarFuncionario extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+            }
+        });
+
+        // Ação do botão Deletar
+        btnDeletar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int resposta = JOptionPane.showConfirmDialog(
+                    EditarFuncionario.this,
+                    "Tem certeza que deseja deletar este funcionário?",
+                    "Confirmação de Deleção",
+                    JOptionPane.YES_NO_OPTION
+                );
+
+                if (resposta == JOptionPane.YES_OPTION) {
+                    deletarFuncionario();
+                }
             }
         });
     }
@@ -98,6 +119,22 @@ public class EditarFuncionario extends JFrame {
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro ao editar o funcionário.", "Erro", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
+    }
+
+    private void deletarFuncionario() {
+        try {
+            boolean sucesso = funcionarioController.deletarFuncionario(funcionario.getIdFuncionario());
+
+            if (sucesso) {
+                JOptionPane.showMessageDialog(this, "Funcionário deletado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                dispose();  // Fecha a tela após a exclusão
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao deletar o funcionário.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao deletar o funcionário.", "Erro", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
     }

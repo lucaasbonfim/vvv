@@ -76,4 +76,15 @@ public class FuncionarioController {
     public Funcionario autenticarFuncionario(String email, String senha) {
         return funcionarioDAO.autenticar(email, senha);
     }
+
+    public boolean deletarFuncionario(Long idFuncionario) {
+        try {
+            boolean sucesso = funcionarioDAO.deletar(idFuncionario);
+
+            return sucesso;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

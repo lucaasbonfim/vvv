@@ -136,7 +136,7 @@ public class FuncionarioDAO {
 
     public boolean deletar(long id) {
         try (Connection conn = DriverManager.getConnection(connectionString, user, password)) {
-            String sql = "DELETE FROM funcionario WHERE id_funcionario = ?";
+            String sql = "DELETE FROM funcionario WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setLong(1, id);
             int rowsAffected = stmt.executeUpdate();
@@ -174,7 +174,7 @@ public class FuncionarioDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return funcionario; // Retorna null caso a autenticação falhe
+        return funcionario;
     }
     
 }
