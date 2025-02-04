@@ -22,7 +22,7 @@ import java.awt.event.MouseEvent;
 public class TelaPrincipal extends JFrame {
 
     private JPanel titleBar;
-    private boolean isGerente = false; // Defina isso de acordo com a lógica do sistema
+    private boolean isGerente = false;
 
     public TelaPrincipal(boolean isGerente) {
         this.isGerente = isGerente;
@@ -189,6 +189,6 @@ public class TelaPrincipal extends JFrame {
     }
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(() -> new TelaPrincipal(true).setVisible(true)); // Altere para false se não for gerente
+        EventQueue.invokeLater(() -> new TelaPrincipal(true).setVisible(true));
     }
 }

@@ -26,7 +26,6 @@ public class CadastrarModal extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
-        // Painel principal com borda para espaçamento
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -34,7 +33,6 @@ public class CadastrarModal extends JFrame {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Adiciona os componentes
         int row = 0;
 
         addField(mainPanel, gbc, row++, "Modelo:", txtModelo = new JTextField());
@@ -43,14 +41,12 @@ public class CadastrarModal extends JFrame {
         addField(mainPanel, gbc, row++, "Tipo:", txtTipo = new JTextField());
         addField(mainPanel, gbc, row++, "Ativo:", chkAtivo = new JCheckBox("Ativo"));
 
-        // Botão Salvar
         btnSalvar = new JButton("Salvar");
         btnSalvar.addActionListener(e -> salvarModal());
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(btnSalvar);
 
-        // Adiciona o painel principal e o botão ao frame
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
@@ -64,8 +60,8 @@ public class CadastrarModal extends JFrame {
         panel.add(new JLabel(label), gbc);
 
         gbc.gridx = 1;
-        gbc.gridwidth = 6;  // Ajuste para o tamanho desejado (dobro da largura)
-        field.setPreferredSize(new Dimension(field.getPreferredSize().width * 2, field.getPreferredSize().height));  // Ajuste dinâmico
+        gbc.gridwidth = 6;
+        field.setPreferredSize(new Dimension(field.getPreferredSize().width * 2, field.getPreferredSize().height));
         panel.add(field, gbc);
     }
 

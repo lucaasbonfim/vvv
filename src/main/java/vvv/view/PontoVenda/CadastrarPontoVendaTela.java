@@ -18,11 +18,10 @@ public class CadastrarPontoVendaTela extends JFrame {
 
         setTitle("Cadastro de Ponto de Venda");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 300); // Mantém o padrão 400x400
+        setSize(400, 300);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
-        // Painel principal com borda para espaçamento
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -33,17 +32,14 @@ public class CadastrarPontoVendaTela extends JFrame {
 
         int row = 0;
 
-        // Campo Nome
         nomeField = new JTextField();
         nomeField.setColumns(15); // Define largura do campo
         addField(mainPanel, gbc, row++, "Nome:", nomeField);
 
-        // Campo Localização
         localizacaoField = new JTextField();
         localizacaoField.setColumns(15); // Define largura do campo
         addField(mainPanel, gbc, row++, "Localização:", localizacaoField);
 
-        // Botão Salvar
         salvarButton = new JButton("Salvar");
         salvarButton.addActionListener(e -> salvarPontoVenda());
 
@@ -51,7 +47,6 @@ public class CadastrarPontoVendaTela extends JFrame {
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(salvarButton);
 
-        // Adiciona o painel principal e o botão ao frame
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
@@ -65,7 +60,7 @@ public class CadastrarPontoVendaTela extends JFrame {
         panel.add(new JLabel(label), gbc);
 
         gbc.gridx = 1;
-        gbc.gridwidth = 6; // Espaço horizontal consistente
+        gbc.gridwidth = 6;
         panel.add(field, gbc);
     }
 

@@ -28,7 +28,6 @@ public class ConsultarReserva extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null);
 
-        // Tabela
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(20, 20, 640, 400);
         add(scrollPane);
@@ -40,14 +39,13 @@ public class ConsultarReserva extends JFrame {
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Impede a edição direta dos dados na tabela
+                return false;
             }
         };
         tabelaReservas.setModel(modeloTabela);
         tabelaReservas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         scrollPane.setViewportView(tabelaReservas);
 
-        // Evento de clique duplo na tabela
         tabelaReservas.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -65,7 +63,7 @@ public class ConsultarReserva extends JFrame {
     private void carregarReservas() {
         try {
             List<Reserva> reservas = reservaController.listarReservas();
-            modeloTabela.setRowCount(0); // Limpa os dados da tabela
+            modeloTabela.setRowCount(0);
             for (Reserva reserva : reservas) {
                 modeloTabela.addRow(new Object[]{
                     reserva.getIdReserva(),

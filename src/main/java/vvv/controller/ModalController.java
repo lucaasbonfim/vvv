@@ -35,7 +35,6 @@ public class ModalController {
     public boolean EditarModal(long id, String modelo, Integer capacidade, Integer anoFabricacao, String tipo, Boolean ativo)
     {
         try {
-            // Busca do objeto modal
             ModalTransporte modal = modalDAO.buscarPorId(id);
 
             modal.setModelo(modelo);
@@ -44,7 +43,6 @@ public class ModalController {
             modal.setTipo(tipo);
             modal.setAtivo(ativo);
 
-            // Chama o DAO para salvar
             return modalDAO.editar(modal);
         } catch (Exception e) {
             e.printStackTrace();

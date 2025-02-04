@@ -33,7 +33,6 @@ public class CadastrarFuncionario extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
-        // Painel principal com borda para espaçamento
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -41,7 +40,6 @@ public class CadastrarFuncionario extends JFrame {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Adiciona os componentes
         int row = 0;
 
         addField(mainPanel, gbc, row++, "Nome:", txtNome = new JTextField());
@@ -51,14 +49,12 @@ public class CadastrarFuncionario extends JFrame {
         addField(mainPanel, gbc, row++, "Cargo (Gerente):", chkCargo = new JCheckBox("Gerente"));
         addField(mainPanel, gbc, row++, "Ponto de Venda:", cmbPontoDeVenda = new JComboBox<>(pontosVenda.values().toArray(new String[0])));
 
-        // Botão Salvar
         btnSalvar = new JButton("Salvar");
         btnSalvar.addActionListener(e -> salvarFuncionario());
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(btnSalvar);
 
-        // Adiciona o painel principal e o botão ao frame
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
@@ -82,8 +78,8 @@ public class CadastrarFuncionario extends JFrame {
         panel.add(new JLabel(label), gbc);
 
         gbc.gridx = 1;
-        gbc.gridwidth = 6;  // Ajuste para o tamanho desejado
-        field.setPreferredSize(new Dimension(field.getPreferredSize().width * 2, field.getPreferredSize().height));  // Ajuste dinâmico
+        gbc.gridwidth = 6; 
+        field.setPreferredSize(new Dimension(field.getPreferredSize().width * 2, field.getPreferredSize().height)); 
         panel.add(field, gbc);
     }
 
@@ -116,7 +112,7 @@ public class CadastrarFuncionario extends JFrame {
         txtEmail.setText("");
         txtSenha.setText("");
         chkCargo.setSelected(false);
-        cmbPontoDeVenda.setSelectedIndex(0);  // Resetar o ComboBox
+        cmbPontoDeVenda.setSelectedIndex(0);
     }
 
     public static void main(String[] args) {

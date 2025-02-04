@@ -26,26 +26,22 @@ public class ConsultarFuncionario extends JFrame {
 
         setLayout(new BorderLayout());
 
-        // Configuração da tabela
         tableModel = new DefaultTableModel(new String[]{"ID", "Nome", "CPF", "Email", "Cargo"}, 0);
         tabelaFuncionarios = new JTable(tableModel);
 
-        // Desativa a edição de células
         tabelaFuncionarios.setDefaultEditor(Object.class, null);
 
         JScrollPane scrollPane = new JScrollPane(tabelaFuncionarios);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Botão para recarregar os dados
         JButton btnAtualizar = new JButton("Atualizar");
         btnAtualizar.addActionListener(e -> carregarFuncionarios());
         add(btnAtualizar, BorderLayout.SOUTH);
 
-        // Configurar ação de duplo clique na tabela
         tabelaFuncionarios.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) { // Clique duplo
+                if (e.getClickCount() == 2) {
                     int selectedRow = tabelaFuncionarios.getSelectedRow();
                     if (selectedRow != -1) {
                         long idFuncionario = Long.parseLong(tableModel.getValueAt(selectedRow, 0).toString());
@@ -55,15 +51,12 @@ public class ConsultarFuncionario extends JFrame {
             }
         });
 
-        // Carregar dados iniciais
         carregarFuncionarios();
     }
 
     private void carregarFuncionarios() {
-        // Limpa os dados existentes na tabela
         tableModel.setRowCount(0);
 
-        // Busca os funcionários no banco de dados
         List<Funcionario> funcionarios = funcionarioController.listarFuncionarios();
         for (Funcionario f : funcionarios) {
             tableModel.addRow(new Object[]{

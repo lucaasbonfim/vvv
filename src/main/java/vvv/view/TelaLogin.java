@@ -34,16 +34,14 @@ public class TelaLogin extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout(0, 0)); // Ajuste para não ter espaço entre componentes
+        setLayout(new BorderLayout(0, 0));
 
         initComponents();
     }
 
     private void initComponents() {
-        // Remover a barra de título padrão
         setUndecorated(true);
 
-        // Barra de título personalizada
         titleBar = new JPanel();
         titleBar.setBackground(Color.DARK_GRAY);
         titleBar.setLayout(new BorderLayout());
@@ -70,9 +68,8 @@ public class TelaLogin extends JFrame {
         addDragFunctionality(titleBar);
         add(titleBar, BorderLayout.NORTH);
 
-        // Painel principal sem bordas extras
         mainPanel = new JPanel(new GridBagLayout());
-        mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20)); // Espaçamento suave
+        mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -84,16 +81,13 @@ public class TelaLogin extends JFrame {
         addField(mainPanel, gbc, row++, "Email:", emailField);
         addField(mainPanel, gbc, row++, "Senha:", senhaField);
 
-        // Botão Login
         loginButton = new JButton("Entrar");
         loginButton.addActionListener(e -> autenticarUsuario());
 
-        // Painel do botão sem fundo e sem borda
         JPanel loginButtonPanel = new JPanel();
         loginButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         loginButtonPanel.add(loginButton);
 
-        // Adiciona os componentes à tela
         add(mainPanel, BorderLayout.CENTER);
         add(loginButtonPanel, BorderLayout.SOUTH);
     }
@@ -104,8 +98,8 @@ public class TelaLogin extends JFrame {
         panel.add(new JLabel(label), gbc);
 
         gbc.gridx = 1;
-        gbc.gridwidth = 6;  // Ajuste para o tamanho desejado (dobro da largura)
-        field.setPreferredSize(new Dimension(200, 25));  // Ajuste dinâmico
+        gbc.gridwidth = 6;  
+        field.setPreferredSize(new Dimension(200, 25));
         panel.add(field, gbc);
     }
 

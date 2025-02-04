@@ -15,10 +15,8 @@ public class EditarModal extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Layout principal
         setLayout(new BorderLayout());
 
-        // Painel para campos de edição
         JPanel painelCampos = new JPanel(new GridLayout(5, 2));
         painelCampos.add(new JLabel("Modelo:"));
         JTextField txtModelo = new JTextField(modal.getModelo());
@@ -42,19 +40,16 @@ public class EditarModal extends JFrame {
 
         add(painelCampos, BorderLayout.CENTER);
 
-        // Botão para salvar as alterações
         JButton btnSalvar = new JButton("Salvar");
         btnSalvar.addActionListener(e -> {
-            // Atualiza os dados do modal com os valores dos campos
             modal.setModelo(txtModelo.getText());
             modal.setCapacidade(Integer.parseInt(txtCapacidade.getText()));
             modal.setAnoFabricacao(Integer.parseInt(txtAnoFabricacao.getText()));
             modal.setTipo(txtTipo.getText());
             modal.setAtivo(checkAtivo.isSelected());
 
-            // Aqui você pode chamar o método do controller para salvar as alterações no banco de dados
             JOptionPane.showMessageDialog(this, "Modal atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            dispose(); // Fecha a tela de edição
+            dispose(); 
         });
 
         add(btnSalvar, BorderLayout.SOUTH);

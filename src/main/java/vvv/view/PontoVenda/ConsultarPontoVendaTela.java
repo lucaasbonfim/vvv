@@ -49,7 +49,7 @@ public class ConsultarPontoVendaTela extends JFrame {
 
     private void carregarPontosVenda() {
         List<PontoVenda> pontosVenda = pontoVendaController.listarModal();
-        tableModel.setRowCount(0);  // Limpar a tabela antes de carregar os novos dados
+        tableModel.setRowCount(0);
 
         for (PontoVenda pontoVenda : pontosVenda) {
             tableModel.addRow(new Object[]{pontoVenda.getIdPontoVenda(), pontoVenda.getNome(), pontoVenda.getLocalizacao()});
@@ -61,7 +61,7 @@ public class ConsultarPontoVendaTela extends JFrame {
         if (selectedRow != -1) {
             long id = (long) tableModel.getValueAt(selectedRow, 0);
             new EditarPontoVendaTela(id).setVisible(true);
-            this.dispose();  // Fecha a tela atual após abrir a de edição
+            this.dispose();
         }
     }
 

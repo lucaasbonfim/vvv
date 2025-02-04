@@ -45,7 +45,7 @@ public class EditarPontoVendaTela extends JFrame {
         panel.add(nomeField);
         panel.add(localizacaoLabel);
         panel.add(localizacaoField);
-        panel.add(new JLabel());  // Espaço vazio
+        panel.add(new JLabel());
         panel.add(atualizarButton);
 
         add(panel);
@@ -79,7 +79,7 @@ public class EditarPontoVendaTela extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            EditarPontoVendaTela tela = new EditarPontoVendaTela(1); // Passar o ID do ponto de venda
+            EditarPontoVendaTela tela = new EditarPontoVendaTela(1);
             tela.setVisible(true);
         });
     }

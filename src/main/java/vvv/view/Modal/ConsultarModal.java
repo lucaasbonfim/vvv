@@ -24,10 +24,8 @@ public class ConsultarModal extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Layout principal
         setLayout(new BorderLayout());
 
-        // Painel superior para busca por nome
         JPanel painelBusca = new JPanel();
         painelBusca.setLayout(new FlowLayout(FlowLayout.LEFT));
         painelBusca.add(new JLabel("Nome:"));
@@ -37,17 +35,14 @@ public class ConsultarModal extends JFrame {
         painelBusca.add(btnBuscar);
         add(painelBusca, BorderLayout.NORTH);
 
-        // Tabela para exibição dos dados
         tabela = new JTable();
-        tabela.setDefaultEditor(Object.class, null); // Desabilita a edição de células
+        tabela.setDefaultEditor(Object.class, null); 
         JScrollPane scrollPane = new JScrollPane(tabela);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Botão para listar todos
         JButton btnListarTodos = new JButton("Listar Todos");
         add(btnListarTodos, BorderLayout.SOUTH);
 
-        // Configuração dos botões
         btnBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,24 +57,21 @@ public class ConsultarModal extends JFrame {
             }
         });
 
-        // Adiciona um MouseListener para detectar duplo clique com o botão esquerdo
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                // Verifica se foi um duplo clique com o botão esquerdo
+
                 if (evt.getClickCount() == 2 && evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
-                    System.out.println("Duplo clique com botão esquerdo detectado"); // Debug
-                    int linhaSelecionada = tabela.getSelectedRow(); // Pega a linha selecionada
-                    if (linhaSelecionada != -1) { // Verifica se uma linha foi selecionada
-                        abrirTelaEditarModal(linhaSelecionada); // Abre a tela de edição
-                    } else {
-                        System.out.println("Nenhuma linha selecionada."); // Debug
+                    System.out.println("Duplo clique com botão esquerdo detectado");
+                    int linhaSelecionada = tabela.getSelectedRow();
+                    if (linhaSelecionada != -1) { 
+                        abrirTelaEditarModal(linhaSelecionada); 
+                        System.out.println("Nenhuma linha selecionada."); 
                     }
                 }
             }
         });
 
-        // Lista todos os modais ao abrir a tela
         listarTodos();
     }
 
@@ -95,7 +87,7 @@ public class ConsultarModal extends JFrame {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao buscar modais: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace(); // Debug
+            e.printStackTrace();
         }
     }
 
@@ -105,7 +97,7 @@ public class ConsultarModal extends JFrame {
             atualizarTabela(modais);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao listar modais: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace(); // Debug
+            e.printStackTrace();
         }
     }
 
@@ -130,17 +122,14 @@ public class ConsultarModal extends JFrame {
 
     private void abrirTelaEditarModal(int linhaSelecionada) {
         try {
-            // Obtém o ID do modal selecionado na tabela
             DefaultTableModel modeloTabela = (DefaultTableModel) tabela.getModel();
-            Long idModal = (Long) modeloTabela.getValueAt(linhaSelecionada, 0); // Coluna 0 é o ID
-            System.out.println("ID do modal selecionado: " + idModal); // Debug
+            Long idModal = (Long) modeloTabela.getValueAt(linhaSelecionada, 0);
+            System.out.println("ID do modal selecionado: " + idModal);
 
-            // Busca o modal no banco de dados (ou na lista) usando o ID
             ModalTransporte modalSelecionado = modalController.buscarModal(idModal);
-            System.out.println("Modal selecionado: " + modalSelecionado); // Debug
+            System.out.println("Modal selecionado: " + modalSelecionado);
 
             if (modalSelecionado != null) {
-                // Abre a tela de edição, passando o modal selecionado
                 EditarModal telaEditarModal = new EditarModal(modalSelecionado);
                 telaEditarModal.setVisible(true);
             } else {
@@ -148,7 +137,7 @@ public class ConsultarModal extends JFrame {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao abrir tela de edição: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace(); // Debug
+            e.printStackTrace();
         }
     }
 

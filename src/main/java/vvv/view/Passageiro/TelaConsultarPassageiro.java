@@ -37,11 +37,10 @@ public class TelaConsultarPassageiro extends JDialog {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // Painel de filtro
         JPanel panelFiltro = new JPanel();
         panelFiltro.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        campoBuscaNome = new JTextField(20); // Campo para digitar o nome
+        campoBuscaNome = new JTextField(20);
         btnBuscar = new JButton("Buscar");
 
         btnBuscar.addActionListener(e -> carregarPassageiros(campoBuscaNome.getText()));
@@ -50,35 +49,30 @@ public class TelaConsultarPassageiro extends JDialog {
         panelFiltro.add(campoBuscaNome);
         panelFiltro.add(btnBuscar);
 
-        // Modelo da tabela
         modeloTabela = new DefaultTableModel(new Object[]{"id", "Nome", "Email", "CPF", "Telefone", "Data de Nascimento"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Impede a edição direta dos dados na tabela
+                return false;
             }
         };
         tabelaPassageiros = new JTable(modeloTabela);
 
-        // Adicionar evento de duplo clique
         tabelaPassageiros.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if (evt.getClickCount() == 2) { // Verifica se foi duplo clique
+                if (evt.getClickCount() == 2) { 
                     int row = tabelaPassageiros.getSelectedRow();
-                    long id = (long) modeloTabela.getValueAt(row, 0); // Pega o id do passageiro
-                    Passageiro passageiro = passageiroController.buscarPassageiro(id); // Busca o passageiro pelo id
+                    long id = (long) modeloTabela.getValueAt(row, 0);
+                    Passageiro passageiro = passageiroController.buscarPassageiro(id);
 
                     if (passageiro != null) {
-                        // Chama a tela de edição passando o passageiro encontrado
                         new TelaEditarPassageiro((Frame) getParent(), passageiroController, passageiro).setVisible(true);
                     }
                 }
             }
         });
 
-        // Painel com barra de rolagem
         JScrollPane scrollPane = new JScrollPane(tabelaPassageiros);
 
-        // Botões
         JPanel panelBotoes = new JPanel();
         JButton btnAtualizar = new JButton("Atualizar");
         JButton btnFechar = new JButton("Fechar");
@@ -89,23 +83,21 @@ public class TelaConsultarPassageiro extends JDialog {
         panelBotoes.add(btnAtualizar);
         panelBotoes.add(btnFechar);
 
-        // Adicionando os componentes ao layout
         add(panelFiltro, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
         add(panelBotoes, BorderLayout.SOUTH);
 
-        // Carregar os passageiros ao abrir
-        carregarPassageiros(""); // Inicializa com todos os passageiros
+        carregarPassageiros("");
     }
 
     private void carregarPassageiros(String nomeFiltro) {
-        modeloTabela.setRowCount(0); // Limpa os dados existentes na tabela
+        modeloTabela.setRowCount(0);
         List<Passageiro> passageiros;
 
         if (nomeFiltro.isEmpty()) {
-            passageiros = passageiroController.listarPassageiros(); // Sem filtro
+            passageiros = passageiroController.listarPassageiros();
         } else {
-            passageiros = passageiroController.buscarPorNome(nomeFiltro); // Com filtro de nome
+            passageiros = passageiroController.buscarPorNome(nomeFiltro);
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");

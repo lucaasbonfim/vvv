@@ -52,10 +52,8 @@ public class PassageiroController {
         System.out.println("Telefone: " + telefone);
         System.out.println("Data de Nascimento: " + dataNascimento);
         try {
-            // Conversão da data de nascimento
             LocalDate data = LocalDate.parse(dataNascimento, java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
-            // Busca do objeto passageiro
             Passageiro passageiro = passageiroDAO.buscarPorId(id);
 
             passageiro.setNome(nome);
@@ -64,7 +62,6 @@ public class PassageiroController {
             passageiro.setTelefone(telefone);
             passageiro.setDataNascimento(data);
 
-            // Chama o DAO para salvar
             return passageiroDAO.editar(passageiro);
         } catch (Exception e) {
             e.printStackTrace();

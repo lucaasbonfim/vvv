@@ -31,7 +31,6 @@ public class EditarFuncionario extends JFrame {
 
         setLayout(new GridLayout(7, 2, 10, 10));
 
-        // Campos de entrada
         add(new JLabel("Nome:"));
         txtNome = new JTextField(funcionario.getNome());
         add(txtNome);
@@ -54,20 +53,17 @@ public class EditarFuncionario extends JFrame {
         add(chkCargo);
 
         add(new JLabel("Ponto de Venda:"));
-        // Mostrar apenas o nome do Ponto de Venda
         lblPontoVenda = new JLabel(funcionario.getPontoDeVenda() != null 
             ? funcionario.getPontoDeVenda().getNome() 
             : "Sem Ponto de Venda");
         add(lblPontoVenda);
 
-        // Botões
         JButton btnSalvar = new JButton("Salvar");
         add(btnSalvar);
 
         JButton btnCancelar = new JButton("Cancelar");
         add(btnCancelar);
 
-        // Ações dos botões
         btnSalvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -91,7 +87,6 @@ public class EditarFuncionario extends JFrame {
             String senha = new String(txtSenha.getPassword());
             boolean cargo = chkCargo.isSelected();
 
-            // Como o Ponto de Venda não pode ser editado, não incluímos pontoVendaId aqui
             boolean sucesso = funcionarioController.editarFuncionario(
                 funcionario.getIdFuncionario(), nome, cpf, email, senha, cargo, null);
 
@@ -109,7 +104,7 @@ public class EditarFuncionario extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            Funcionario mockFuncionario = new Funcionario(); // Mock para teste
+            Funcionario mockFuncionario = new Funcionario();
             mockFuncionario.setIdFuncionario(1L);
             mockFuncionario.setNome("João Silva");
             mockFuncionario.setCpf("123.456.789-00");
@@ -117,7 +112,6 @@ public class EditarFuncionario extends JFrame {
             mockFuncionario.setSenha("123456");
             mockFuncionario.setCargo(true);
 
-            // Simulando um ponto de venda
             vvv.model.PontoVenda mockPontoVenda = new vvv.model.PontoVenda();
             mockPontoVenda.setIdPontoVenda(2L);
             mockPontoVenda.setNome("Loja Central");
