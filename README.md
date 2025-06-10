@@ -15,7 +15,7 @@ O **SCVP** tem como objetivo facilitar o controle operacional da empresa Vai&Vol
 - Java 17
 - Swing (Interface Gráfica)
 - JDBC (Conexão com banco de dados)
-- MySQL / MariaDB
+- PostgreSQL
 - IDE IntelliJ / NetBeans
 - Maven
 
